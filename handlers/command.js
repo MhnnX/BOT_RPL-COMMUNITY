@@ -19,4 +19,5 @@ module.exports = (client) => {
     });
     
     console.log(table.toString());
+    console.log("Command Handler is ready")
 }

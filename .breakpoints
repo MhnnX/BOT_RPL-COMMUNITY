@@ -1,0 +1,20 @@
+{
+  "files": {
+    "config.json": [
+      {
+        "id": "573c0b43-e643-4ac8-ab02-0cec5f824d27",
+        "line": 4,
+        "version": 140,
+        "index": 92
+      }
+    ],
+    "index.js": [
+      {
+        "id": "61afbbe6-e57a-4528-a314-a9103f59866c",
+        "line": 44,
+        "version": 1206,
+        "index": 1124
+      }
+    ]
+  }
+}
