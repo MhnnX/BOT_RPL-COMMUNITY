@@ -3,7 +3,7 @@ const simplydjs = require('simply-djs')
 const { Permissions } = require("discord.js");
 
 module.exports = {
-    name: 'verify2',
+    name: 'verify',
     category: "info",
     run : async (client, message, args, interaction) => {
       if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
@@ -16,7 +16,7 @@ simplydjs.btnrole(client, message, {
     embed: embed,
     data: [
       {
-        role: '917432143465050192',
+        role: '918619008830410812',
         label: 'VERIFY',
         color: 'SUCCESS',
       },

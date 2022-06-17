@@ -6,7 +6,7 @@ client.on('messageCreate', async message =>{
     if(message.author.bot) return;
     if(!message.content.startsWith(config.prefix)) return;
     if(!message.guild) return;
-    if(!message.member) message.member = await message.guild.fetchMember(message);
+    if(!message.member) message.member = await         message.guild.fetchMember(message);
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
     if(cmd.length == 0 ) return;
@@ -17,5 +17,5 @@ client.on('messageCreate', async message =>{
 
 
 client.on('ready', () => {
-    client.user.setActivity(`SECTOR BUCIN | _help`,{type : "WATCHING"});
+    client.user.setActivity(`RPL TEAM™`,{type : "WATCHING"});
 })
