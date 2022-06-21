@@ -1,7 +1,9 @@
 const {Collection, Client, Discord} = require('discord.js')
 const config = require('./config.json');
 const fs = require('fs');
-const simplydjs = require("simply-djs")
+const simplydjs = require("simply-djs");
+const { WebhookClient } = require('discord.js');
+const hook = new WebhookClient({ url: 'https://discord.com/api/webhooks/988778378129702932/wZClJZ2tn2RjVP8HIOBxshOvSUByDORwIccwhScfaCMMDdzrCbWqtk1QBtX5t2LUlRNO' })
 const client = new Client({
     intents: [
         "GUILDS",
@@ -34,7 +36,8 @@ require("http").createServer((_, res) => res.end("Uptime!")).listen(8080);
 });
 
 client.once('ready', () => {
-  console.log(`${client.user.tag} is ready`)
+  console.log(`${client.user.tag} is online`)
+  hook.send(`**${client.user.username}** is online`)
 })
 
 client.on("interactionCreate", interaction => {

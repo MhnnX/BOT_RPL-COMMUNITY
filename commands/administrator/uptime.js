@@ -1,40 +1,64 @@
-const { MessageEmbed } = require("discord.js");
-const { Permissions } = require("discord.js");
+const { Message, MessageEmbed, version } = require("discord.js");
+const Client = require("../../index.js");
+const embed = require('../../events/config.js');
+let os = require("os");
+let cpuStat = require("cpu-stat");
 
 module.exports = {
-  name: 'uptime',
-  aliases: ['ut'],
-  description: 'Display the bots uptime',
-  run: async (client, message, args, Discord) => {
-    if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
-      return message.reply("Kamu tidak dapat menggunakan command ini!");
-    
-    const utembed = new MessageEmbed()
-      .setColor("RANDOM")
-      .setDescription("Counting Bot Uptimes!...");
-    
-    let totalSec = (client.uptime / 1000)
-    let days = Math.floor(totalSec /86400)
-    totalSec %= 86400
-    let hours = Math.floor(totalSec / 3600)
-    totalSec %= 3600
-    let minutes = Math.floor(totalSec / 60)
-    let seconds = Math.floor(totalSec % 60)
-    
-    const utEmbed = new MessageEmbed()
-      .setColor("RANDOM")
-      .setTitle('BOT UPTIME')
-      .setDescription(
-          `Days     : ****${days}****d
-\nHours    : ***${hours}***h
-\nMinutes  : **${minutes}**m
-\nSeconds  : **${seconds}**s`
-      );
-    
-    message.reply({ embeds: [utembed] }).then(message => {
-      setTimeout(() => {
-        message.edit({ embeds: [utEmbed] });
-      }, 500 * 5);
+  name: "info",
+  aliases: ["botinfo"],
+  description: `see stats of bot`,
+  userPermissions: ["SEND_MESSAGES"],
+  botPermissions: ["EMBED_LINKS"],
+  category: "Information",
+  cooldown: 5,
+  inVoiceChannel: false,
+  inSameVoiceChannel: false,
+  Player: false,
+  djOnly: false,
+
+  /**
+   *
+   * @param {JUGNU} client
+   * @param {Message} message
+   * @param {String[]} args
+   * @param {String} prefix
+   */
+  run: async (client, message, args, prefix) => {
+    // Code
+    cpuStat.usagePercent(function (err, percent, seconds) {
+      message.reply({
+        embeds: [
+          new MessageEmbed()
+            .setColor()
+
+            .setTitle("__**Stats:**__")
+            .addField(
+              "⏳ Memory Usage",
+              `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
+                2
+              )}\` / \`${(os.totalmem() / 1024 / 1024).toFixed(2)} MB\``
+            )
+            .addField(
+              "⌚️ Uptime ",
+              `<t:${Math.floor(Date.now() / 1000 - client.uptime / 1000)}:R>`
+            )
+            .addField("📁 Users", `\`${client.guilds.cache.reduce((a,b) => a + b.memberCount, 0)} User\``, true)
+            .addField("📁 Servers", `\`${client.guilds.cache.size} Server\``, true)
+            .addField("📁 Channels", `\`${client.channels.cache.size} Channel\``, true)
+            .addField("👾 Discord.js", `\`v${version}\``, true)
+            .addField("🤖 Node", `\`${process.version}\``, true)
+            .addField("🏓 Ping", `\`${client.ws.ping}ms\``, true)
+            .addField(
+              "🤖 CPU",
+              `\`\`\`md\n${os.cpus().map((i) => `${i.model}`)[0]}\`\`\``
+            )
+            .addField("🤖 CPU usage", `\`${percent.toFixed(2)}%\``, true)
+            .addField("🤖 Arch", `\`${os.arch()}\``, true)
+            // .addField("\u200b", `\u200b`)
+            .addField("💻 Platform", `\`\`${os.platform()}\`\``, true),
+        ],
+      });
     });
-  }
+  },
 };
